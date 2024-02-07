@@ -1,0 +1,28 @@
+.hero_img {
+    position: relative;
+}
+.hero_img::before {
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 300px;
+    background-image: linear-gradient(
+        to bottom,
+        rgba(225,225,225,0),
+        rgba(225,
+            225,
+            225)
+    )
+}
+.carousel_container {
+    width: fit-content;
+    overflow-y: hidden;
+    overflow-x: hidden;
+
+}
+@media (min-width: 768px) {
+    .carousel_container {
+        width:fit-content;
+    }
+}
