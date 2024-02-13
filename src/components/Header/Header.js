@@ -1,22 +1,23 @@
-import React, { useContext } from 'react'
-import classes from './header.module.css'
-import flag from '../../assets/img/640px-Flag_of_the_United_States.svg.png'
-import { Link } from 'react-router-dom';
+import React, { useContext } from "react";
+import classes from "./header.module.css";
+import flag from "../../assets/img/640px-Flag_of_the_United_States.svg.png";
+import { Link } from "react-router-dom";
 import { IoLocationOutline } from "react-icons/io5";
 import { BsCart3 } from "react-icons/bs";
 import { FaSearch } from "react-icons/fa";
-import LowerHeader from './LowerHeader';
-import { DataContext } from '../DataProvider/DataProvider';
+import LowerHeader from "./LowerHeader";
+import { DataContext } from "../DataProvider/DataProvider";
+import { auth } from "../../pages/Utility/firebase";
 
 const Header = () => {
-  const [{basket}, dispatch] = useContext(DataContext)
-  console.log(basket.length)
-  
-  const totalItem = basket?.reduce((amount, item) => {
-    return item.amount + amount
-  },0)
+  const [{ basket, user }, dispatch] = useContext(DataContext);
+  console.log(basket.length);
 
-console.log(totalItem)
+  const totalItem = basket?.reduce((amount, item) => {
+    return item.amount + amount;
+  }, 0);
+
+  console.log(totalItem);
 
   return (
     <section className={classes.fixed}>
@@ -47,7 +48,7 @@ console.log(totalItem)
               <option value="">All</option>
             </select>
             <input type="text" placeholder="Search Amazon" />
-            <FaSearch size={25} />
+            <FaSearch size={38} />
           </div>
           {/* right side link */}
           <div className={classes.order_container}>
@@ -57,9 +58,20 @@ console.log(totalItem)
                 <option value="">EN</option>
               </select>
             </Link>
-            <Link to="/auth">
-              <p>Sign In</p>
-              <span>Account & Lists</span>
+            <Link to={!user && "/auth"}>
+              <div>
+                {user ? (
+                  <>
+                    <p>Hello {user?.email?.split("@")[0]} </p>
+                    <span onClick={() => auth.signOut()}>Sign Out</span>
+                  </>
+                ) : (
+                  <>
+                    <p>Hello,Sign In</p>
+                    <span>Account & Lists</span>
+                  </>
+                )}
+              </div>
             </Link>
             <Link to="/orders">
               <p>returns</p>
@@ -75,6 +87,6 @@ console.log(totalItem)
       <LowerHeader />
     </section>
   );
-}
+};
 
 export default Header;
